@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{ text|default:'No text' }}</h1>
+    <h2>{{ text|slugify }}</h2>
+    <h2>{{ text|truncatechars:10 }}</h2>
+    <h2>{{ text|truncatewords:5|capfirst }}</h2>
+    
+    <h2>The current time is {{ current_time }}</h2>
+    <h2>The current year is {{ current_time|date:'Y' }}</h2>
+    
+    <h2>Person's name is {{ person.name }}. His age is {{ person.age }}</h2>
+    <p>Person's data: {{ person.items }}</p>
+    <p>Second ID: {{ ids.1 }}</p>
+
+</body>
+</html>
