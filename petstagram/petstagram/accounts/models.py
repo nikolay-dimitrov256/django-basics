@@ -21,7 +21,9 @@ class User(models.Model):
         validators=[
             MinLengthValidator(2, message='First name should be at least 2 letters long.'),
             IsAlphaValidator(message='First name should consist of only letters.'),
-        ]
+        ],
+        null=True,
+        blank=True,
     )
 
     last_name = models.CharField(
@@ -29,11 +31,21 @@ class User(models.Model):
         validators=[
             MinLengthValidator(2, message='Last name should be at least 2 letters long.'),
             IsAlphaValidator(message='Last name should consist of only letters.'),
-        ]
+        ],
+        null=True,
+        blank=True,
     )
 
-    profile_picture = models.URLField()
+    profile_picture = models.URLField(
+        null=True,
+        blank=True,
+    )
 
     gender = models.CharField(
-        choices=GenderChoices.choices
+        choices=GenderChoices.choices,
+        null=True,
+        blank=True,
     )
+
+    def __str__(self):
+        return self.username
