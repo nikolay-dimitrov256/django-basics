@@ -37,14 +37,16 @@ class Photo(models.Model):
         blank=True,
     )
 
-    likes = models.ManyToManyField(
+    liked_by = models.ManyToManyField(
         to=User,
         through='Like',
+        related_name='liked_photos'
     )
 
-    user = models.ForeignKey(
+    creator = models.ForeignKey(
         to=User,
         on_delete=models.CASCADE,
+        related_name='uploaded_photos'
     )
 
 
