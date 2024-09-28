@@ -42,6 +42,11 @@ class Photo(models.Model):
         through='Like',
     )
 
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+    )
+
 
 class Comment(models.Model):
     text = models.TextField(
@@ -55,6 +60,11 @@ class Comment(models.Model):
 
     photo = models.ForeignKey(
         to=Photo,
+        on_delete=models.CASCADE,
+    )
+
+    user = models.ForeignKey(
+        to=User,
         on_delete=models.CASCADE,
     )
 
