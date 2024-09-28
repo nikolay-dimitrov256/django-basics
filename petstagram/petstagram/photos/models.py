@@ -30,6 +30,8 @@ class Photo(models.Model):
 
     tagged_pets = models.ManyToManyField(
         to=Pet,
+        null=True,
+        blank=True,
     )
 
     published_on = models.DateField(
