@@ -1,6 +1,7 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
 
+from petstagram.accounts.models import User
 from petstagram.pets.models import Pet
 from petstagram.photos.validators import MaxSizeValidator
 
@@ -36,6 +37,11 @@ class Photo(models.Model):
         blank=True,
     )
 
+    likes = models.ManyToManyField(
+        to=User,
+        through='Like',
+    )
+
 
 class Comment(models.Model):
     text = models.TextField(
@@ -51,3 +57,20 @@ class Comment(models.Model):
         to=Photo,
         on_delete=models.CASCADE,
     )
+
+
+class Like(models.Model):
+    photo_id = models.ForeignKey(
+        to=Photo,
+        on_delete=models.CASCADE,
+    )
+
+    user_id = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        unique_together = [
+            ['photo_id', 'user_id']
+        ]
