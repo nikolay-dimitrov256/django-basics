@@ -61,3 +61,16 @@ class PostDeleteForm(PostBaseForm):
 
         for field in self.fields:
             self.fields[field].disabled = True
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(
+        max_length=100,
+        required=False,
+        label='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Search'
+            }
+        )
+    )

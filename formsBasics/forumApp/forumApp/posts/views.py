@@ -1,7 +1,9 @@
 from datetime import datetime
+
+from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm
+from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm, SearchForm
 from forumApp.posts.models import Post
 
 
@@ -20,10 +22,18 @@ def index(request):
 
 
 def dashboard(request):
+    form = SearchForm(request.GET)
     posts = Post.objects.all()
+
+    if request.method == 'GET':
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            search = Q(title__icontains=query) | Q(content__icontains=query)
+            posts = posts.filter(search)
 
     context = {
         'posts': posts,
+        'form': form,
     }
 
     return render(request, 'posts/dashboard.html', context)
