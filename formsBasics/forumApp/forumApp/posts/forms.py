@@ -1,5 +1,7 @@
 from django import forms
 
+from forumApp.posts.models import Post
+
 
 class PersonForm(forms.Form):
     STATUS_CHOICES = (
@@ -30,3 +32,9 @@ class PersonForm(forms.Form):
         choices=STATUS_CHOICES,
         widget=forms.RadioSelect(),
     )
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        exclude = ['created_at']

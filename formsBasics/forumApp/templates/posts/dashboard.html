@@ -33,6 +33,13 @@
             {% empty %}
                 <h1>No Posts</h1>
             {% endfor %}
+            
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                {{ form.errors }}
+                <button>Send</button>
+            </form>
         </div>
     </div>
     

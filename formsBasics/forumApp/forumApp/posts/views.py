@@ -1,7 +1,8 @@
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from forumApp.posts.forms import PersonForm
+from forumApp.posts.forms import PersonForm, PostForm
+from forumApp.posts.models import Post
 
 
 def index(request):
@@ -19,27 +20,17 @@ def index(request):
 
 
 def dashboard(request):
+    posts = Post.objects.all()
+    form = PostForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('dash')
+
     context = {
-        "posts": [
-            {
-                "title": "How to create django project?",
-                "author": "Diyan Kalaydzhiev",
-                "content": "I **really** don't how to create a project",
-                "created_at": datetime.now(),
-            },
-            {
-                "title": "How to create django project 1?",
-                "author": "",
-                "content": "### I really don't know how to create a project",
-                "created_at": datetime.now(),
-            },
-            {
-                "title": "How to create django project 2?",
-                "author": "Diyan Kalaydzhiev",
-                "content": "",
-                "created_at": datetime.now(),
-            },
-        ]
+        'posts': posts,
+        'form': form
     }
 
     return render(request, 'posts/dashboard.html', context)
