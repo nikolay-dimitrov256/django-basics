@@ -17,11 +17,9 @@
     
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="person_name">
-        <input type="number" name="age">
-        
+        {{ my_form }}
+        {{ my_form.errors }}
         <input type="submit" value="Submit">
-
     </form>
 </body>
     <script src='https://unpkg.com/akar-icons-fonts'></script>

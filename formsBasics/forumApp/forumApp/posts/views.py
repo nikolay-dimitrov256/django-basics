@@ -1,9 +1,21 @@
 from datetime import datetime
 from django.shortcuts import render
 
+from forumApp.posts.forms import PersonForm
+
 
 def index(request):
-    return render(request, 'base.html')
+    form = PersonForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            print(form.cleaned_data['person_name'])
+
+    context = {
+        'my_form': form,
+    }
+
+    return render(request, 'base.html', context)
 
 
 def dashboard(request):
