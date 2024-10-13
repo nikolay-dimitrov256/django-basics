@@ -1,3 +1,4 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 
 from forumApp.posts.choices import LanguageChoices
@@ -8,7 +9,9 @@ class Post(models.Model):
         max_length=100,
     )
 
-    content = models.TextField()
+    content = models.TextField(
+        validators=[MinLengthValidator(5)]
+    )
 
     author = models.CharField(
         max_length=50,

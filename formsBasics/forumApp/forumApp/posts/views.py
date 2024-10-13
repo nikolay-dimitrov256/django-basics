@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
 
-from forumApp.posts.forms import PersonForm, PostForm
+from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm
 from forumApp.posts.models import Post
 
 
@@ -21,7 +21,16 @@ def index(request):
 
 def dashboard(request):
     posts = Post.objects.all()
-    form = PostForm(request.POST or None)
+
+    context = {
+        'posts': posts,
+    }
+
+    return render(request, 'posts/dashboard.html', context)
+
+
+def add_post(request):
+    form = PostCreateForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -29,8 +38,27 @@ def dashboard(request):
             return redirect('dash')
 
     context = {
-        'posts': posts,
         'form': form
     }
 
-    return render(request, 'posts/dashboard.html', context)
+    return render(request, 'posts/add-post.html', context)
+
+
+def delete_post(request, pk: int):
+    post = Post.objects.get(pk=pk)
+    form = PostDeleteForm(instance=post)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('dash')
+
+    context = {
+        'post': post,
+        'form': form,
+    }
+
+    return render(request, 'posts/delete-post.html', context)
+
+
+def post_details(request, pk: int):
+    return render(request,)
