@@ -1,7 +1,6 @@
 from django.db import models
+# from django.template.defaultfilters import slugify
 from django.utils.text import slugify
-
-from petstagram.accounts.models import User
 
 
 class Pet(models.Model):
@@ -9,27 +8,26 @@ class Pet(models.Model):
         max_length=30,
     )
 
-    pet_photo = models.URLField()
+    personal_photo = models.URLField()
 
     date_of_birth = models.DateField(
+        blank=True,
+        null=True,
+    )
+
+    slug = models.SlugField(
         null=True,
         blank=True,
-    )
-
-    slug = models.CharField(
-        max_length=100,
-        blank=True,
-    )
-
-    user = models.ForeignKey(
-        to=User,
-        on_delete=models.CASCADE,
-        related_name='pets',
+        unique=True,
+        editable=False,
+        allow_unicode=True,
     )
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(f'{self.name}-{self.id}', allow_unicode=True)
 
         super().save(*args, **kwargs)
 

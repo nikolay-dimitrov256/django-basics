@@ -1,7 +1,6 @@
 from django.urls import path
-
-from petstagram.common.views import index
+from petstagram.common import views
 
 urlpatterns = [
-    path('', index, name='index')
+    path('', views.home_page, name='home')
 ]
