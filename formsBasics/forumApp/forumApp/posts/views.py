@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
 
-from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm
+from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm
 from forumApp.posts.models import Post
 
 
@@ -61,4 +61,30 @@ def delete_post(request, pk: int):
 
 
 def post_details(request, pk: int):
-    return render(request,)
+    post = Post.objects.get(pk=pk)
+
+    context = {
+        'post': post,
+    }
+
+    return render(request, 'posts/post-details.html', context)
+
+
+def edit_post(request, pk: int):
+    post = Post.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        form = PostEditForm(request.POST, instance=post)
+
+        if form.is_valid():
+            form.save()
+            return redirect('post_details', pk=pk)
+    else:
+        form = PostEditForm(instance=post)
+
+    context = {
+        'post': post,
+        'form': form,
+    }
+
+    return render(request, 'posts/edit-post.html', context)
