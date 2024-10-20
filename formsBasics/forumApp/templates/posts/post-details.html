@@ -23,6 +23,20 @@
             <div class="post-meta">  
                 <span>Posted by {{ post.author|default:"anonymous" }} on {{ post.created_at|date:"d-M-Y" }}</span>  
             </div>  
-        </div>  
+        </div>
+        <form method="post" class="form-inline">
+            {% csrf_token %}
+
+            {{ formset.management_form }}
+            <div class="input-group">
+                {% for form in formset %}
+                    <div class="form-row">
+                        <p>{{ form.author }}</p>
+                        <p>{{ form.content }}</p>
+                        <button>Submit</button>
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
     </div>
 {% endblock %}

@@ -1,9 +1,10 @@
 from datetime import datetime
 
 from django.db.models import Q
+from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 
-from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm, SearchForm
+from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm, SearchForm, CommentFormSet
 from forumApp.posts.models import Post
 
 
@@ -18,7 +19,13 @@ def index(request):
     #     'my_form': form,
     # }
 
-    return render(request, 'common/index.html')
+    post_form = modelform_factory(Post, fields=['title', 'content'])
+
+    context = {
+        'form': post_form,
+    }
+
+    return render(request, 'common/index.html', context)
 
 
 def dashboard(request):
@@ -72,9 +79,21 @@ def delete_post(request, pk: int):
 
 def post_details(request, pk: int):
     post = Post.objects.get(pk=pk)
+    formset = CommentFormSet(request.POST or None)
+
+    if request.method == 'POST':
+        if formset.is_valid():
+            for form in formset:
+                if form.cleaned_data:
+                    comment = form.save(commit=False)
+                    comment.post = post
+                    comment.save()
+
+            return redirect('post_details', pk=pk)
 
     context = {
         'post': post,
+        'formset': formset,
     }
 
     return render(request, 'posts/post-details.html', context)
