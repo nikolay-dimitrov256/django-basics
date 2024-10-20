@@ -8,17 +8,17 @@ from forumApp.posts.models import Post
 
 
 def index(request):
-    form = PersonForm(request.POST or None)
+    # form = PersonForm(request.POST or None)
+    #
+    # if request.method == 'POST':
+    #     if form.is_valid():
+    #         print(form.cleaned_data['person_name'])
+    #
+    # context = {
+    #     'my_form': form,
+    # }
 
-    if request.method == 'POST':
-        if form.is_valid():
-            print(form.cleaned_data['person_name'])
-
-    context = {
-        'my_form': form,
-    }
-
-    return render(request, 'base.html', context)
+    return render(request, 'common/index.html')
 
 
 def dashboard(request):

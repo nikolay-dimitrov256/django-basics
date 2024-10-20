@@ -1,0 +1,30 @@
+<form class="search-bar" action="{% url 'dash' %}">
+    {{ form }}
+    <button>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="transparent" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai ai-Search"><path d="M21 21l-4.486-4.494M19 10.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z"/></svg>
+    </button>
+
+    <p style="color: #95a3b9">The method is {{ request.method }}</p>
+    <p style="color: #95a3b9">The variable is {{ variable }}</p>
+</form>
+
+<script>
+    function submitSearch(e) {
+        let timeout = null
+
+        const form = document.querySelector('.search-bar')
+        const input = document.querySelector('input')
+
+        input.focus()
+        input.setSelectionRange(input.value.length, input.value.length)
+
+        input.addEventListener('input', (e) => {
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                form.submit()
+            }, 1000)
+        })
+    }
+    
+    submitSearch()
+</script>
