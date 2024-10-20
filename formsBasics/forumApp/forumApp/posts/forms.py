@@ -45,6 +45,12 @@ class PostBaseForm(forms.ModelForm):
                 }
             )
         }
+        error_messages = {
+            'title': {
+                'required': 'Please enter a title',
+                'max_length': f'The title shouldn\'t be longer than {Post.TITLE_MAX_LENGTH} characters'
+            }
+        }
 
 
 class PostCreateForm(PostBaseForm):
@@ -67,6 +73,9 @@ class SearchForm(forms.Form):
     query = forms.CharField(
         max_length=100,
         required=False,
+        # error_messages={
+        #     'required': 'Please enter search words',
+        # },
         label='',
         widget=forms.TextInput(
             attrs={
