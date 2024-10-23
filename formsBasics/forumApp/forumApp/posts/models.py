@@ -31,6 +31,12 @@ class Post(models.Model):
         default=LanguageChoices.OTHER,
     )
 
+    image = models.ImageField(
+        upload_to='post_images',
+        null=True,
+        blank=True,
+    )
+
 
 class Comment(models.Model):
     post = models.ForeignKey(

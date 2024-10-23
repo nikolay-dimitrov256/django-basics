@@ -4,7 +4,10 @@
 {% block content %}
     <div class="posts">  
         <div class="post">  
-            <div class="header">  
+            <div class="header">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="image" style="width: 100px; height: auto"/>
+                {% endif %}
                 <h2>{{ post.title|capfirst }}</h2>  
                 <div class="icons">  
                     <a href="{% url 'edit_post' post.pk %}">  
@@ -14,12 +17,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="margin-bottom: 3px; margin-left: 5px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" color="black" stroke-linejoin="round" class="ai ai-TrashCan"><path d="M4 6h16l-1.58 14.22A2 2 0 0 1 16.432 22H7.568a2 2 0 0 1-1.988-1.78L4 6z"/><path d="M7.345 3.147A2 2 0 0 1 9.154 2h5.692a2 2 0 0 1 1.81 1.147L18 6H6l1.345-2.853z"/><path d="M2 6h20"/><path d="M10 11v5"/><path d="M14 11v5"/></svg>  
                     </a>  
                 </div>  
-            </div>  
-            {% if not post.content %}  
-                <p>{% lorem 3 p %}</p>  
-            {% else %}  
-                <p>{{ post.content|markdown }}</p>  
-            {% endif %}  
+            </div>
+            <p>{{ post.content|markdown }}</p>
             <div class="post-meta">  
                 <span>Posted by {{ post.author|default:"anonymous" }} on {{ post.created_at|date:"d-M-Y" }}</span>  
             </div>  
@@ -38,5 +37,17 @@
                 {% endfor %}
             </div>
         </form>
+
+        <div class="comments-section">
+            {% for comment in comments %}
+                <div class="media comment-item">
+                    <img src="https://via.placeholder.com/50" class="comment-avatar">
+                </div>
+                <div class="media-body comment-content">
+                    <h5 class="comment-author">{{ comment.author }}</h5>
+                    <p class="comment-text">{{ comment.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

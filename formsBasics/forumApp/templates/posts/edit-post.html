@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1 style="color: #185adb">Edit Post</h1>
-    <form action="{% url 'edit_post' post.pk %}" method="post">
+    <form action="{% url 'edit_post' post.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <button class="button-9">Edit</button>

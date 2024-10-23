@@ -5,7 +5,7 @@ from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 
 from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm, SearchForm, CommentFormSet
-from forumApp.posts.models import Post
+from forumApp.posts.models import Post, Comment
 
 
 def index(request):
@@ -47,7 +47,7 @@ def dashboard(request):
 
 
 def add_post(request):
-    form = PostCreateForm(request.POST or None)
+    form = PostCreateForm(request.POST or None, request.FILES or None)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -78,7 +78,8 @@ def delete_post(request, pk: int):
 
 
 def post_details(request, pk: int):
-    post = Post.objects.get(pk=pk)
+    post = Post.objects.prefetch_related('comments').get(pk=pk)
+    comments = post.comments.all()
     formset = CommentFormSet(request.POST or None)
 
     if request.method == 'POST':
@@ -94,6 +95,7 @@ def post_details(request, pk: int):
     context = {
         'post': post,
         'formset': formset,
+        'comments': comments
     }
 
     return render(request, 'posts/post-details.html', context)
@@ -103,7 +105,7 @@ def edit_post(request, pk: int):
     post = Post.objects.get(pk=pk)
 
     if request.method == 'POST':
-        form = PostEditForm(request.POST, instance=post)
+        form = PostEditForm(request.POST, request.FILES or None, instance=post)
 
         if form.is_valid():
             form.save()
