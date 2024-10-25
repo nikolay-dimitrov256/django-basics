@@ -1,12 +1,12 @@
 from datetime import datetime
-from lib2to3.fixes.fix_input import context
 
 from django.db.models import Q
 from django.forms import modelform_factory
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django import views
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, DetailView, FormView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, DetailView, FormView, ListView
 
 from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm, SearchForm, CommentFormSet
 from forumApp.posts.models import Post, Comment
@@ -16,15 +16,22 @@ class IndexView(TemplateView):
     template_name = 'common/index.html'
 
 
-class DashboardView(TemplateView):
+class DashboardView(ListView, FormView):
+    model = Post
+    context_object_name = 'posts'
+    form_class = SearchForm
+    paginate_by = 2
     template_name = 'posts/dashboard.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        posts = Post.objects.all()
-        context['posts'] = posts
+    def get_queryset(self):
+        queryset = self.model.objects.all()
 
-        return context
+        if 'query' in self.request.GET:
+            query = self.request.GET.get('query')
+            search = Q(title__icontains=query) | Q(content__icontains=query)
+            queryset = queryset.filter(search)
+
+        return queryset
 
 
 class AddPostView(CreateView):
@@ -62,6 +69,16 @@ class DeletePostView(DeleteView, FormView):
 class PostDetailsView(DetailView):
     model = Post
     template_name = 'posts/post-details.html'
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+
+        try:
+            obj = Post.objects.prefetch_related('comments').get(pk=pk)
+        except self.model.DoesNotExist:
+            raise Http404
+
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
