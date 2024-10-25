@@ -29,6 +29,10 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+MY_APPS = [
+    'musicApp.albums',
+    'musicApp.profiles',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + MY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
