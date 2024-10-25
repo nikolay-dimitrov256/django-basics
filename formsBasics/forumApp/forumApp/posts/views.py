@@ -5,7 +5,7 @@ from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 from django import views
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, UpdateView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, DetailView, FormView
 
 from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm, SearchForm, CommentFormSet
 from forumApp.posts.models import Post, Comment
@@ -15,18 +15,53 @@ class IndexView(TemplateView):
     template_name = 'common/index.html'
 
 
+class DashboardView(TemplateView):
+    template_name = 'posts/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        posts = Post.objects.all()
+        context['posts'] = posts
+
+        return context
+
+
 class AddPostView(CreateView):
     model = Post
-    fields = '__all__'
+    form_class = PostCreateForm
     template_name = 'posts/add-post.html'
-    success_url = reverse_lazy('dash')
+    # success_url = reverse_lazy('dash')
+
+    def get_success_url(self):
+        return reverse_lazy('post_details', kwargs={'pk': self.object.pk})
 
 
 class EditPostView(UpdateView):
     model = Post
     fields = '__all__'
     template_name = 'posts/edit-post.html'
+    # success_url = reverse_lazy('dash')
+
+    def get_success_url(self):
+        return reverse_lazy('post_details', kwargs={'pk': self.object.pk})
+
+
+class DeletePostView(DeleteView, FormView):
+    model = Post
+    form_class = PostDeleteForm
+    template_name = 'posts/delete-post.html'
     success_url = reverse_lazy('dash')
+
+    def get_initial(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        post = Post.objects.get(pk=pk)
+        return post.__dict__
+
+
+class PostDetailsView(DetailView):
+    model = Post
+    template_name = 'posts/post-details.html'
+    context_object_name = 'post'
 
 
 def index(request):
