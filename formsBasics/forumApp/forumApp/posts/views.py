@@ -1,4 +1,5 @@
 from datetime import datetime
+from lib2to3.fixes.fix_input import context
 
 from django.db.models import Q
 from django.forms import modelform_factory
@@ -61,7 +62,29 @@ class DeletePostView(DeleteView, FormView):
 class PostDetailsView(DetailView):
     model = Post
     template_name = 'posts/post-details.html'
-    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['formset'] = CommentFormSet()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
+        formset = CommentFormSet(request.POST or None)
+
+        if formset.is_valid():
+            for form in formset:
+                if form.cleaned_data:
+                    comment = form.save(commit=False)
+                    comment.post = post
+                    comment.save()
+
+            return redirect('post_details', pk=post.pk)
+
+        context = self.get_context_data()
+        context['formset'] = formset
+
+        return self.render_to_response(context)
 
 
 def index(request):
