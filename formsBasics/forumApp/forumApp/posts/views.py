@@ -3,9 +3,30 @@ from datetime import datetime
 from django.db.models import Q
 from django.forms import modelform_factory
 from django.shortcuts import render, redirect
+from django import views
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, CreateView, UpdateView
 
 from forumApp.posts.forms import PersonForm, PostCreateForm, PostDeleteForm, PostEditForm, SearchForm, CommentFormSet
 from forumApp.posts.models import Post, Comment
+
+
+class IndexView(TemplateView):
+    template_name = 'common/index.html'
+
+
+class AddPostView(CreateView):
+    model = Post
+    fields = '__all__'
+    template_name = 'posts/add-post.html'
+    success_url = reverse_lazy('dash')
+
+
+class EditPostView(UpdateView):
+    model = Post
+    fields = '__all__'
+    template_name = 'posts/edit-post.html'
+    success_url = reverse_lazy('dash')
 
 
 def index(request):
