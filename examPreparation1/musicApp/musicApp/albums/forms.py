@@ -1,7 +1,7 @@
 from django import forms
 
 from musicApp.albums.models import Album
-from musicApp.albums.choices import GenreChoices
+from musicApp.common.mixins import ReadonlyMixin
 
 
 class AlbumBaseForm(forms.ModelForm):
@@ -18,4 +18,12 @@ class AlbumBaseForm(forms.ModelForm):
 
 
 class AlbumCreateForm(AlbumBaseForm):
+    pass
+
+
+class AlbumEditForm(AlbumBaseForm):
+    pass
+
+
+class AlbumDeleteForm(ReadonlyMixin, AlbumBaseForm):
     pass

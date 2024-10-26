@@ -9,7 +9,7 @@
                 <!-- Album Image -->
                 <img src="{{ album.image_url }}" alt="Cover Image" />
             </div>
-                
+
             <div class="albumInfo">
                 <div class="albumText">
                     <!-- Album Info -->
@@ -21,11 +21,11 @@
                         <p>{{ album.description }}</p>
                     {% endif %}
                 </div>
-                    
+
                 <div class="actionBtn">
                     <!-- Album Buttons -->
-                    <a href="#" class="edit">Edit</a>
-                    <a href="#" class="remove">Delete</a>
+                    <a href="{% url 'edit-album' album.id %}" class="edit">Edit</a>
+                    <a href="{% url 'delete-album' album.id %}" class="remove">Delete</a>
                 </div>
             </div>
         </div>
