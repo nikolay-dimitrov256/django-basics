@@ -14,6 +14,7 @@ class HomeView(ListView, BaseFormView):
     context_object_name = 'albums'
     form_class = ProfileCreateForm
     success_url = reverse_lazy('home')
+    object_list = []
 
     def get_template_names(self):
         profile = get_profile()
@@ -23,15 +24,13 @@ class HomeView(ListView, BaseFormView):
 
         return ['common/home-with-profile.html']
 
-    def get_context_data(self, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['profile'] = get_profile()
-
+        print(context)
         return context
 
     def form_valid(self, form):
         form.save()
 
         return super().form_valid(form)
-
-    # TODO: Fix invalid form
