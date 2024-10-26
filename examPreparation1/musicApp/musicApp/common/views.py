@@ -26,7 +26,6 @@ class HomeView(ListView, BaseFormView):
     def get_context_data(self, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         context['profile'] = get_profile()
-        print(context)
 
         return context
 

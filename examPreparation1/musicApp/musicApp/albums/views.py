@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from musicApp.albums.forms import AlbumCreateForm
 from musicApp.albums.models import Album
@@ -20,3 +20,9 @@ class AddAlbumView(CreateView):
         album.save()
 
         return super().form_valid(form)
+
+
+class AlbumDetailsView(DetailView):
+    model = Album
+    pk_url_kwarg = 'id'
+    template_name = 'albums/album-details.html'
