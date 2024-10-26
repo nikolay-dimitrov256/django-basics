@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
-from worldOfSpeedApp.cars.forms import CarCreateForm
+from worldOfSpeedApp.cars.forms import CarCreateForm, CarEditForm
 from worldOfSpeedApp.cars.models import Car
 from worldOfSpeedApp.common.helpers import get_profile
 from worldOfSpeedApp.common.mixins import AddProfileToContextMixin
@@ -35,4 +35,11 @@ class CarDetailsView(AddProfileToContextMixin, DetailView):
     pk_url_kwarg = 'id'
     template_name = 'cars/car-details.html'
 
+
+class CarEditView(AddProfileToContextMixin, UpdateView):
+    model = Car
+    pk_url_kwarg = 'id'
+    form_class = CarEditForm
+    template_name = 'cars/car-edit.html'
+    success_url = reverse_lazy('catalogue')
 

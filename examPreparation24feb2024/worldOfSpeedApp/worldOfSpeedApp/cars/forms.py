@@ -14,3 +14,7 @@ class CarBaseForm(forms.ModelForm):
 
 class CarCreateForm(CarBaseForm):
     pass
+
+
+class CarEditForm(CarBaseForm):
+    pass

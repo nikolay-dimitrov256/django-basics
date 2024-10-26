@@ -7,5 +7,6 @@ urlpatterns = [
     path('catalogue/', views.CatalogueView.as_view(), name='catalogue'),
     path('<int:id>/', include([
         path('details/', views.CarDetailsView.as_view(), name='car-details'),
+        path('edit/', views.CarEditView.as_view(), name='edit-car'),
     ]))
 ]
