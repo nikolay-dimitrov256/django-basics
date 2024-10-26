@@ -1,29 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>My Music App</title>
-    <!-- Static Load -->
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
+{% extends 'common/base.html' %}
 
-  <body>
-    <div id="box">
-      <!-- Navigation Bar -->
-      <header>
-        <nav>
-          <img src="/images/headphones.png" alt="headphones" />
-          <a href="#">Home</a>
-          <ul></ul>
-          <ul>
-            <!--Only for user with created profile-->
-            <li><a href="#">Create Album</a></li>
-            <li><a href="#">Profile</a></li>
-          </ul>
-        </nav>
-      </header>
-      <!-- End Navigation Bar -->
-
+{% block content %}
       <!-- Main Content -->
       <!--Details Page-->
       <section id="detailsPage">
@@ -37,10 +14,10 @@
 
           <div class="profileText">
             <!-- Profile Info -->
-            <h1>Username: testUser_12345</h1>
-            <h1>Email: testuser@email.com</h1>
-            <h1>Age: 27</h1>
-            <h1>Albums: 3</h1>
+            <h1>Username: {{ profile.username }}</h1>
+            <h1>Email: {{ profile.email}}</h1>
+            <h1>Age: {{ profile.age }}</h1>
+            <h1>Albums: {{ profile.album_set.count }}</h1>
           </div>
 
           <div class="actionBtn">
@@ -50,11 +27,4 @@
         </div>
       </section>
 
-      <!-- Footer -->
-      <footer>
-        <div>&copy;SoftUni Team 2024. All rights reserved.</div>
-      </footer>
-      <!-- End Footer -->
-    </div>
-  </body>
-</html>
+{% endblock %}
