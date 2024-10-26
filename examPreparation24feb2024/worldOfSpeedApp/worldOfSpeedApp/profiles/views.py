@@ -10,4 +10,4 @@ class ProfileCreateView(CreateView):
     model = Profile
     form_class = ProfileCreateForm
     template_name = 'profiles/profile-create.html'
-    success_url = reverse_lazy('index')  # TODO: Change to 'catalogue'
+    success_url = reverse_lazy('catalogue')
