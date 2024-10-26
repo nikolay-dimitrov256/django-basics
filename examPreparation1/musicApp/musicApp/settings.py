@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 MY_APPS = [
     'musicApp.albums',
     'musicApp.profiles',
+    'musicApp.common',
 ]
 
 INSTALLED_APPS = [
