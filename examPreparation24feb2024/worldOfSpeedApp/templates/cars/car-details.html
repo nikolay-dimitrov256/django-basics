@@ -25,7 +25,7 @@
       <!-- Edit/Delete buttons -->
       <div class="buttons">
         <a href="{% url 'edit-car' object.pk %}" class="edit-button">Edit</a>
-        <a href="#" class="delete-button">Delete</a>
+        <a href="{% url 'delete-car' object.pk %}" class="delete-button">Delete</a>
       </div>
     </div>
   </section>

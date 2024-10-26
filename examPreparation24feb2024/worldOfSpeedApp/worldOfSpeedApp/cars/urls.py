@@ -8,5 +8,6 @@ urlpatterns = [
     path('<int:id>/', include([
         path('details/', views.CarDetailsView.as_view(), name='car-details'),
         path('edit/', views.CarEditView.as_view(), name='edit-car'),
+        path('delete/', views.CarDeleteView.as_view(), name='delete-car'),
     ]))
 ]

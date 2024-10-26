@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic.edit import BaseFormView
 
-from worldOfSpeedApp.cars.forms import CarCreateForm, CarEditForm
+from worldOfSpeedApp.cars.forms import CarCreateForm, CarEditForm, CarDeleteForm
 from worldOfSpeedApp.cars.models import Car
 from worldOfSpeedApp.common.helpers import get_profile
 from worldOfSpeedApp.common.mixins import AddProfileToContextMixin
@@ -43,3 +44,16 @@ class CarEditView(AddProfileToContextMixin, UpdateView):
     template_name = 'cars/car-edit.html'
     success_url = reverse_lazy('catalogue')
 
+
+class CarDeleteView(AddProfileToContextMixin, DeleteView, BaseFormView):
+    model = Car
+    pk_url_kwarg = 'id'
+    form_class = CarDeleteForm
+    template_name = 'cars/car-delete.html'
+    success_url = reverse_lazy('catalogue')
+
+    def get_initial(self):
+        return self.object.__dict__
+
+    def form_invalid(self, form):
+        return self.form_valid(form)
