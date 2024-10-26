@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('worldOfSpeedApp.common.urls')),
     path('profile/', include('worldOfSpeedApp.profiles.urls')),
+    path('car/', include('worldOfSpeedApp.cars.urls')),
 ]
