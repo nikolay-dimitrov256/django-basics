@@ -13,4 +13,9 @@ class ProfileBaseForm(forms.ModelForm):
 
 
 class ProfileCreateForm(ProfileBaseForm):
+    class Meta(ProfileBaseForm.Meta):
+        exclude = ['first_name', 'last_name', 'profile_picture']
+
+
+class ProfileEditForm(ProfileBaseForm):
     pass

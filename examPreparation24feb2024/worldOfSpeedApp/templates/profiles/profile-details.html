@@ -33,10 +33,10 @@
             <!-- user age -->
             <p class="description">Age: {{ object.age }}</p>
             <!-- total price of all cars -->
-            <p class="description">Total price: {{ object.total_sum }}</p>
+            <p class="description">Total price: {{ object.total_sum|floatformat:3 }}</p>
             <!-- Edit/Delete buttons -->
             <div class="buttons">
-              <a href="#" class="edit-button">Edit</a>
+              <a href="{% url 'edit-profile' %}" class="edit-button">Edit</a>
               <a href="#" class="delete-button">Delete</a>
             </div>
           </div>
