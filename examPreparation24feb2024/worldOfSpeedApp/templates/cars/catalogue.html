@@ -28,7 +28,7 @@
               <h1>{{ car.model }}</h1>
               <div class="details-buttons">
                 <!-- car details button -->
-                <a href="#" class="details-btn">Details</a>
+                <a href="{% url 'car-details' car.pk %}" class="details-btn">Details</a>
               </div>
             </div>
         {% endfor %}

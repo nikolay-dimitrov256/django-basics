@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView
 
 from worldOfSpeedApp.cars.forms import CarCreateForm
 from worldOfSpeedApp.cars.models import Car
 from worldOfSpeedApp.common.helpers import get_profile
+from worldOfSpeedApp.common.mixins import AddProfileToContextMixin
 
 
-class CreateCarView(CreateView):
+class CreateCarView(AddProfileToContextMixin, CreateView):
     model = Car
     form_class = CarCreateForm
     template_name = 'cars/car-create.html'
@@ -19,7 +20,7 @@ class CreateCarView(CreateView):
         return super().form_valid(form)
 
 
-class CatalogueView(ListView):
+class CatalogueView(AddProfileToContextMixin, ListView):
     model = Car
     template_name = 'cars/catalogue.html'
 
@@ -27,3 +28,11 @@ class CatalogueView(ListView):
         profile = get_profile()
 
         return Car.objects.filter(owner=profile)
+
+
+class CarDetailsView(AddProfileToContextMixin, DetailView):
+    model = Car
+    pk_url_kwarg = 'id'
+    template_name = 'cars/car-details.html'
+
+
