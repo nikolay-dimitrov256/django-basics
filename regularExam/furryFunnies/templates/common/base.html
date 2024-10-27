@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=\, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static '/styles/styles.css' %}" />
+    <title>FurryFunnies</title>
+  </head>
+  <body>
+    <div id="wrapper">
+
+        {% include 'common/header.html' %}
+
+        {% block content %}
+        
+        {% endblock %}
+
+    </div>
+
+    <!-- footer -->
+    <footer>
+      <p>&copy; 2024 FurryFunnies by SoftUni Team. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
