@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 MY_APPS = [
     'forumApp.posts',
+    'forumApp.accounts',
 ]
 
 INSTALLED_APPS = [
@@ -132,6 +133,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # LOGGING = {
 #     'version': 1,
