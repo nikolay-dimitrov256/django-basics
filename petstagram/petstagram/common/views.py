@@ -11,3 +11,7 @@ def home_page(request):
     }
 
     return render(request, 'common/home-page.html', context)
+
+
+def like_functionality(request, photo_id):
+    pass

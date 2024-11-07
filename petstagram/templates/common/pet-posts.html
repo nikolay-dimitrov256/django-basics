@@ -1,6 +1,5 @@
 {% load static %}
-{% for photo in photos %}
-<!-- Start First Pet Photo Post -->
+
 <div class="card">
 
     <!-- Start User Details and Image Location -->
@@ -26,15 +25,17 @@
                 </a>
                 <br>
                 <!-- if the photo has location -->
-                <span>Bansko, Bulgaria</span>
+                {% if photo.location %}
+                    <span>{{ photo.location }}</span>
+                {% endif %}
             </h3>
         </div>
     </div>
     <!-- End User Details and Image Location -->
 
     <!-- Start Pet Photo -->
-    <div class="imgBx" id="{{ photo.id}}">
-        <img src="{{ photo.photo }}" alt="post" class="cover">
+    <div class="imgBx" id="{{ photo.pk }}">
+        <img src="{{ photo.photo.url }}" alt="post" class="cover">
     </div>
     <!-- End Pet Photo -->
 
@@ -64,12 +65,13 @@
         <!-- End Like and Share Buttons -->
 
         <!-- Number of Likes per Photo -->
-        <p class="likes">{{ photo.likes.count }}</p>
+        <p class="likes">203 likes</p>
 
-        {% for pet in photo.tagged_pets.all %}
+
         <!-- Start Tagged Pets -->
+        {% for pet in photo.tagged_pets.all %}
         <!-- Link to First Tagged Pet Details Page-->
-        <a href="{% url 'photo_details' 'username' pet.slug %}">
+        <a href="{% url 'pet_details' "username" pet.slug %}">
             <p class="message">
                 <b>{{ pet.name }}</b>
             </p>
@@ -103,5 +105,3 @@
     </div>
 </div>
 <!-- End First Pet Photo Post -->
-    
-{% endfor %}
