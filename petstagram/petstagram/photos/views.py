@@ -8,7 +8,17 @@ def add_photo(request):
 
 
 def photo_details(request, pk: int):
-    return render(request, 'photos/photo-details-page.html')
+    photo = Photo.objects.get(pk=pk)
+    likes = photo.likes.all()
+    comments = photo.comments.all()
+
+    context = {
+        'photo': photo,
+        'likes': likes,
+        'comments': comments,
+    }
+
+    return render(request, 'photos/photo-details-page.html', context)
 
 
 def edit_photo(request, pk: int):
