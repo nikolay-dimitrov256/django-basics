@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from petstagram.photos.models import Photo
+
 
 def add_photo(request):
     return render(request, 'photos/photo-add-page.html')
