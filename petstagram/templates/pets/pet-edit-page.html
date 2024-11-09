@@ -9,7 +9,7 @@
         <!-- Start Edit Pet From -->
         <form method="post">
             {% csrf_token %}
-            {{ form }}
+            {{ form.as_p }}
             <!-- Edit Pet Button -->
             <button class="edit-btn" type="submit">Edit</button>
         </form>
