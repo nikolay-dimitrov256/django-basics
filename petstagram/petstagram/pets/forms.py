@@ -1,5 +1,6 @@
 from django import forms
 
+from petstagram.pets.mixins import DisabledFieldsMixin
 from petstagram.pets.models import Pet
 
 
@@ -28,5 +29,5 @@ class PetEditForm(PetBaseForm):
     pass
 
 
-class PetDeleteForm(PetBaseForm):
+class PetDeleteForm(DisabledFieldsMixin, PetBaseForm):
     pass
