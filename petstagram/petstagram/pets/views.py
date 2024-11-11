@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+from petstagram.common.forms import CommentForm
 from petstagram.pets.forms import PetCreateForm, PetEditForm, PetDeleteForm
 from petstagram.pets.models import Pet
 
@@ -22,10 +23,12 @@ def add_pet(request):
 def pet_details(request, username, pet_slug):
     pet = Pet.objects.get(slug=pet_slug)
     photos = pet.photo_set.all()
+    comment_form = CommentForm()
 
     context = {
         'pet': pet,
         'photos': photos,
+        'comment_form': comment_form,
     }
 
     return render(request, 'pets/pet-details-page.html', context)
